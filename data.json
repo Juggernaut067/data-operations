@@ -1,0 +1,295 @@
+{
+  "sources": [
+    {
+      "id": "gdelt",
+      "name": "GDELT 情报员",
+      "source": "GDELT Events API",
+      "domain": "政治",
+      "countries": [
+        "全球"
+      ],
+      "status": "stable",
+      "statusLabel": "运行正常",
+      "lastReceived": "2026-10-29 09:14:50",
+      "failuresSince": 0,
+      "failureDetails": [],
+      "method": "定时 API",
+      "cadence": "每 15 分钟",
+      "owner": "演示配置",
+      "note": "此处的领域和覆盖国家为示例，应由项目组根据来源实际内容维护。"
+    },
+    {
+      "id": "fred",
+      "name": "FRED 经济数据员",
+      "source": "FRED Economic Data",
+      "domain": "经济",
+      "countries": [
+        "美国"
+      ],
+      "status": "stable",
+      "statusLabel": "运行正常",
+      "lastReceived": "2026-10-29 08:02:17",
+      "failuresSince": 0,
+      "failureDetails": [],
+      "method": "定时 API",
+      "cadence": "每日 1 次",
+      "owner": "演示配置",
+      "note": "宏观经济序列的覆盖范围需按具体指标确认。"
+    },
+    {
+      "id": "crawler-a",
+      "name": "采集组信息员 A",
+      "source": "测试网页来源 A",
+      "domain": "贸易与供应链",
+      "countries": [
+        "全球"
+      ],
+      "status": "pending",
+      "statusLabel": "待验证",
+      "lastReceived": "",
+      "failuresSince": 0,
+      "failureDetails": [],
+      "method": "定时采集",
+      "cadence": "频率待确认",
+      "owner": "爬取组（占位）",
+      "note": "等待采集组确认真实来源、领域、国家覆盖和运行记录格式。"
+    },
+    {
+      "id": "crawler-b",
+      "name": "采集组信息员 B",
+      "source": "测试网页来源 B",
+      "domain": "政治",
+      "countries": [
+        "待确认"
+      ],
+      "status": "error",
+      "statusLabel": "有采集失败",
+      "lastReceived": "2026-10-28 16:40:12",
+      "failuresSince": 2,
+      "failureDetails": [
+        {
+          "id": "ERR-NET-2408",
+          "time": "2026-10-29 08:30:00",
+          "description": "请求等待 30 秒后仍未收到响应，批次未入库。"
+        },
+        {
+          "id": "ERR-PARSE-2401",
+          "time": "2026-10-29 07:30:00",
+          "description": "返回内容格式与预期不一致，无法提取有效记录。"
+        }
+      ],
+      "method": "人工触发",
+      "cadence": "按需采集",
+      "owner": "爬取组（占位）",
+      "note": "失败次数统计区间：最近一次成功入库之后。"
+    },
+    {
+      "id": "world-bank",
+      "name": "世界银行宏观数据组",
+      "source": "World Bank Indicators API",
+      "domain": "经济",
+      "countries": [
+        "CHN",
+        "VNM"
+      ],
+      "status": "pending",
+      "statusLabel": "待接收数据",
+      "lastReceived": "",
+      "failuresSince": 0,
+      "failureDetails": [],
+      "method": "API 导出文件",
+      "cadence": "人工提交批次",
+      "owner": "世界银行数据组",
+      "note": "来源登记信息为任务示例；国家覆盖需随每批实际内容核对。"
+    },
+    {
+      "id": "comtrade",
+      "name": "UN Comtrade 贸易数据组",
+      "source": "UN Comtrade API",
+      "domain": "贸易与供应链",
+      "countries": [
+        "CHN",
+        "VNM"
+      ],
+      "status": "pending",
+      "statusLabel": "待接收数据",
+      "lastReceived": "",
+      "failuresSince": 0,
+      "failureDetails": [],
+      "method": "API 导出文件",
+      "cadence": "人工提交批次",
+      "owner": "UN Comtrade 数据组",
+      "note": "来源登记信息为任务示例；具体国家/流向按每批报告国与伙伴国判断。"
+    }
+  ],
+  "batches": [
+    {
+      "id": "B-20261029-091450-01",
+      "sourceId": "gdelt",
+      "source": "GDELT 情报员",
+      "sourceName": "GDELT Events API",
+      "domain": "政治",
+      "ingestedAt": "2026-10-29 09:14:50",
+      "count": 1196,
+      "errors": [
+        {
+          "id": "ERR-DEDUP-1182",
+          "description": "记录与已入库内容重复，系统按去重规则跳过。",
+          "stage": "validation",
+          "affectedCount": null
+        },
+        {
+          "id": "ERR-FIELD-1183",
+          "description": "部分记录缺少必需的地点字段，未进入正式数据表。",
+          "stage": "validation",
+          "affectedCount": null
+        }
+      ],
+      "receivedAt": "2026-10-29 09:14:50",
+      "collectedAt": "2026-10-29 09:14:50",
+      "recordCount": 1196,
+      "fetchedCount": 1196,
+      "status": "partial",
+      "fileName": null
+    },
+    {
+      "id": "B-20261029-090018-01",
+      "sourceId": "crawler-a",
+      "source": "采集组信息员 A",
+      "sourceName": "测试网页来源 A",
+      "domain": "贸易与供应链",
+      "ingestedAt": "2026-10-29 09:00:18",
+      "count": 28,
+      "errors": [
+        {
+          "id": "ERR-DATE-0711",
+          "description": "7 条记录未识别到发布时间，因此没有写入。",
+          "stage": "validation",
+          "affectedCount": null
+        }
+      ],
+      "receivedAt": "2026-10-29 09:00:18",
+      "collectedAt": "2026-10-29 09:00:18",
+      "recordCount": 28,
+      "fetchedCount": 28,
+      "status": "partial",
+      "fileName": null
+    },
+    {
+      "id": "B-20261029-080217-01",
+      "sourceId": "fred",
+      "source": "FRED 经济数据员",
+      "sourceName": "FRED Economic Data",
+      "domain": "经济",
+      "ingestedAt": "2026-10-29 08:02:17",
+      "count": 186,
+      "errors": [],
+      "receivedAt": "2026-10-29 08:02:17",
+      "collectedAt": "2026-10-29 08:02:17",
+      "recordCount": 186,
+      "fetchedCount": 186,
+      "status": "success",
+      "fileName": null
+    },
+    {
+      "id": "B-20261029-085945-01",
+      "sourceId": "gdelt",
+      "source": "GDELT 情报员",
+      "sourceName": "GDELT Events API",
+      "domain": "政治",
+      "ingestedAt": "2026-10-29 08:59:45",
+      "count": 1060,
+      "errors": [
+        {
+          "id": "ERR-DEDUP-1130",
+          "description": "记录与历史批次重复，未重复入库。",
+          "stage": "validation",
+          "affectedCount": null
+        },
+        {
+          "id": "ERR-FIELD-1131",
+          "description": "38 条记录未通过字段完整性校验。",
+          "stage": "validation",
+          "affectedCount": null
+        }
+      ],
+      "receivedAt": "2026-10-29 08:59:45",
+      "collectedAt": "2026-10-29 08:59:45",
+      "recordCount": 1060,
+      "fetchedCount": 1060,
+      "status": "partial",
+      "fileName": null
+    },
+    {
+      "id": "B-20261029-084442-01",
+      "sourceId": "gdelt",
+      "source": "GDELT 情报员",
+      "sourceName": "GDELT Events API",
+      "domain": "政治",
+      "ingestedAt": "2026-10-29 08:44:42",
+      "count": 1132,
+      "errors": [],
+      "receivedAt": "2026-10-29 08:44:42",
+      "collectedAt": "2026-10-29 08:44:42",
+      "recordCount": 1132,
+      "fetchedCount": 1132,
+      "status": "success",
+      "fileName": null
+    },
+    {
+      "id": "B-20261029-082900-01",
+      "sourceId": "crawler-b",
+      "source": "采集组信息员 B",
+      "sourceName": "测试网页来源 B",
+      "domain": "政治",
+      "ingestedAt": "2026-10-29 08:29:00",
+      "count": 12,
+      "errors": [
+        {
+          "id": "ERR-BODY-0412",
+          "description": "2 条记录没有可用正文，校验后跳过。",
+          "stage": "validation",
+          "affectedCount": null
+        }
+      ],
+      "receivedAt": "2026-10-29 08:29:00",
+      "collectedAt": "2026-10-29 08:29:00",
+      "recordCount": 12,
+      "fetchedCount": 12,
+      "status": "partial",
+      "fileName": null
+    },
+    {
+      "id": "B-20261028-160412-01",
+      "sourceId": "crawler-b",
+      "source": "采集组信息员 B",
+      "sourceName": "测试网页来源 B",
+      "domain": "政治",
+      "ingestedAt": "2026-10-28 16:40:12",
+      "count": 12,
+      "errors": [],
+      "receivedAt": "2026-10-28 16:40:12",
+      "collectedAt": "2026-10-28 16:40:12",
+      "recordCount": 12,
+      "fetchedCount": 12,
+      "status": "success",
+      "fileName": null
+    },
+    {
+      "id": "B-20261028-080157-01",
+      "sourceId": "fred",
+      "source": "FRED 经济数据员",
+      "sourceName": "FRED Economic Data",
+      "domain": "经济",
+      "ingestedAt": "2026-10-28 08:01:57",
+      "count": 184,
+      "errors": [],
+      "receivedAt": "2026-10-28 08:01:57",
+      "collectedAt": "2026-10-28 08:01:57",
+      "recordCount": 184,
+      "fetchedCount": 184,
+      "status": "success",
+      "fileName": null
+    }
+  ]
+}

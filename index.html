@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="数据来源与采集任务运行情况原型" />
+    <title>数据运营台 | 来源与数据批次</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="主导航">
+        <a class="brand" href="#sources" aria-label="数据运营台首页">
+          <span class="brand-mark" aria-hidden="true">D</span>
+          <span class="brand-copy"><strong>数据运营台</strong><small>DATA OPERATIONS</small></span>
+        </a>
+
+        <div class="workspace-label">数据管理</div>
+        <nav class="nav-list">
+          <button class="nav-item active" type="button" data-page="sources" aria-current="page">
+            <span class="nav-symbol" aria-hidden="true">◫</span><span>数据来源</span><span class="nav-count" id="source-nav-count">04</span>
+          </button>
+          <button class="nav-item" type="button" data-page="batches">
+            <span class="nav-symbol" aria-hidden="true">≡</span><span>数据批次</span><span class="nav-count" id="run-nav-count">08</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-bottom">
+          <div class="prototype-note"><span class="note-dot"></span><span>演示环境<br /><small>当前数据为示例数据</small></span></div>
+          <div class="user-row"><span class="user-avatar">研</span><span><strong>研究工作区</strong><small>项目成员</small></span><span class="user-menu" aria-hidden="true">···</span></div>
+        </div>
+      </aside>
+
+      <main class="main-area">
+        <header class="topbar">
+          <div class="breadcrumb"><span>数据管理</span><span class="crumb-divider">/</span><strong id="breadcrumb-current">数据来源</strong></div>
+          <div class="top-actions"><span class="environment-tag"><i></i>演示数据</span><button class="icon-action" id="refresh-button" type="button" title="重新载入示例数据" aria-label="重新载入示例数据">↻</button></div>
+        </header>
+
+        <section class="page" id="sources-page" aria-labelledby="sources-title">
+          <div class="page-heading">
+            <div><div class="eyebrow">SOURCE REGISTRY</div><h1 id="sources-title">数据来源</h1><p class="page-description">按信息员、信息领域和国家查看来源配置，以及最近传入和失败情况。</p></div>
+            <button class="secondary-button" type="button" id="source-info-button">字段说明</button>
+          </div>
+
+          <div class="summary-strip" aria-label="来源概况">
+            <div class="summary-item"><span class="summary-label">登记来源</span><strong id="total-sources">04</strong><span class="summary-foot">项</span></div>
+            <div class="summary-item"><span class="summary-label">运行正常</span><strong class="text-good" id="healthy-sources">02</strong><span class="summary-foot">项</span></div>
+            <div class="summary-item"><span class="summary-label">待验证 / 异常</span><strong class="text-warn" id="attention-sources">02</strong><span class="summary-foot">项</span></div>
+            <div class="summary-item summary-updated"><span class="summary-label">最近一次批次接收</span><strong id="global-last-success">暂无批次接收记录</strong></div>
+          </div>
+
+          <div class="toolbar">
+            <label class="search-field"><span aria-hidden="true">⌕</span><input id="source-search" type="search" placeholder="搜索信息员名称" autocomplete="off" /></label>
+            <label class="select-field"><span>信息领域</span><select id="source-domain-filter"><option value="all">全部领域</option><option value="政治">政治</option><option value="经济">经济</option><option value="贸易与供应链">贸易与供应链</option><option value="安全与冲突">安全与冲突</option></select></label>
+            <label class="select-field"><span>国家 / 地区</span><select id="source-country-filter"><option value="all">全部国家 / 地区</option><option value="CHN">中国</option><option value="VNM">越南</option><option value="USA">美国</option><option value="全球">全球</option><option value="待确认">待确认</option></select></label>
+            <label class="select-field"><span>接入状态</span><select id="source-status-filter"><option value="all">全部状态</option><option value="stable">运行正常</option><option value="pending">待验证</option><option value="error">异常</option><option value="paused">已暂停</option></select></label>
+            <span class="toolbar-spacer"></span><span class="table-count" id="source-result-count">共 4 个来源</span>
+          </div>
+
+          <div class="table-frame">
+            <table class="data-table source-table">
+              <thead><tr><th>信息员名称</th><th>提供的信息领域</th><th>国家 / 地区</th><th>接入状态</th><th>最近传入数据</th><th>此后失败次数</th><th aria-label="操作"></th></tr></thead>
+              <tbody id="source-table-body"></tbody>
+            </table>
+            <div class="empty-state" id="source-empty" hidden>没有符合条件的数据来源。</div>
+          </div>
+          <div class="table-footnote"><span class="info-mark" aria-hidden="true">i</span><span>“待验证”表示已登记配置，但尚未通过实际采集验证；状态应由采集运行记录更新。</span></div>
+        </section>
+
+        <section class="page" id="runs-page" aria-labelledby="runs-title" hidden>
+          <div class="page-heading">
+            <div><div class="eyebrow">INGESTED DATA BATCHES</div><h1 id="runs-title">数据批次</h1><p class="page-description">每条记录代表一个已入库批次，显示明确入库时间、批次条数和错误详情。</p></div>
+            <span class="auto-refresh-label"><i></i>按入库时间倒序</span>
+          </div>
+
+          <div class="summary-strip run-summary" aria-label="采集运行概况">
+            <div class="summary-item"><span class="summary-label">今日入库批次</span><strong id="today-runs">05</strong><span class="summary-foot">批</span></div>
+            <div class="summary-item"><span class="summary-label">今日入库数据</span><strong class="text-good" id="success-runs">3,602</strong><span class="summary-foot">条</span></div>
+            <div class="summary-item"><span class="summary-label">含错误批次</span><strong class="text-warn" id="partial-runs">03</strong><span class="summary-foot">批</span></div>
+            <div class="summary-item"><span class="summary-label">错误总数</span><strong class="text-bad" id="failed-runs">05</strong><span class="summary-foot">条</span></div>
+          </div>
+
+          <div class="toolbar run-toolbar">
+            <label class="search-field"><span aria-hidden="true">⌕</span><input id="run-search" type="search" placeholder="搜索信息员、批次编号或错误 ID" autocomplete="off" /></label>
+            <label class="select-field"><span>信息员</span><select id="batch-source-filter"><option value="all">全部信息员</option><option value="gdelt">GDELT 情报员</option><option value="fred">FRED 经济数据员</option><option value="crawler-a">采集组信息员 A</option><option value="crawler-b">采集组信息员 B</option><option value="world-bank">世界银行宏观数据组</option><option value="comtrade">UN Comtrade 贸易数据组</option></select></label>
+            <label class="select-field date-select"><span>入库日期</span><select id="run-date-filter"><option value="today">今天</option><option value="all">全部日期</option></select></label>
+            <span class="toolbar-spacer"></span><span class="table-count" id="run-result-count">共 8 条记录</span>
+          </div>
+
+          <div class="table-frame">
+            <table class="data-table run-table">
+              <thead><tr><th>信息员 / 批次编号</th><th>批次接收时间 / 文件</th><th>信息领域</th><th>文件记录数</th><th>错误数量</th><th>错误摘要</th><th aria-label="详情"></th></tr></thead>
+              <tbody id="run-table-body"></tbody>
+            </table>
+            <div class="empty-state" id="run-empty" hidden>没有符合条件的数据批次。</div>
+          </div>
+          <div class="table-footnote"><span class="info-mark" aria-hidden="true">i</span><span>批次接收时间由平台登记；采集完成时间由数据组提供。此阶段是文件交接登记，不代表数据库入库。</span></div>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <div class="drawer-backdrop" id="drawer-backdrop" hidden>
+      <aside class="detail-drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title">
+        <div class="drawer-header"><div><div class="eyebrow" id="drawer-kicker">RUN DETAIL</div><h2 id="drawer-title">采集任务详情</h2></div><button class="icon-action drawer-close" id="drawer-close" type="button" aria-label="关闭详情">×</button></div>
+        <div id="drawer-content"></div>
+      </aside>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>
